@@ -1,3 +1,5 @@
+# Caution: Work in progress! Boilerplate don't work yet.
+
 #rename
 1. `PLUGIN_NAME_VERSION` to `YOUR_PLUGIN_NAME_VERSION`
 2. `plugin-name` folder to `your-plugin-name` 
