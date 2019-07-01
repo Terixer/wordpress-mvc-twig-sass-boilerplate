@@ -3,8 +3,7 @@
 namespace PluginName\Core;
 
 use PluginName\Services\Loader;
-use PluginName\Services\ScriptsLoader\Admin\AdminScriptsLoader;
-use const PLGUIN_AUTOLOADER_DIR;
+use PluginName\Config\Admin\AdminScriptsLoader;
 
 require_once PLGUIN_AUTOLOADER_DIR;
 

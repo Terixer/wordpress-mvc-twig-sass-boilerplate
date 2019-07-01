@@ -21,7 +21,6 @@ use PluginName\Core\Bootstrap;
  * Text Domain:       plugin-name
  * Domain Path:       /languages
  */
-
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
     die;
@@ -38,12 +37,19 @@ function deactivatePlugin() {
 register_activation_hook(__FILE__, 'activatePlugin');
 register_deactivation_hook(__FILE__, 'deactivatePlugin');
 
+function twig() {
+    $loader = new \Twig\Loader\FilesystemLoader(VIEW_DIR);
+    $twig = new \Twig\Environment($loader);
+    return $twig;
+}
+
 function run() {
     try {
         $containerBuilder = new DI\ContainerBuilder();
         $container = $containerBuilder->build();
-        $plugin = $container->get(Bootstrap::class);
-        $plugin->run();
+        $container->set("view", twig());
+        $di = $container->get(Bootstrap::class);
+        $di->run();
     } catch (Exception $ex) {
         if (!isDebug()) {
             errorNotice($ex->getMessage(), 'error');

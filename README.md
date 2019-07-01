@@ -15,7 +15,4 @@
 
 #toDo
 
-* change AdminScriptsLoader location
 * adding custom assets from controller
-* change files tree in App/Constroller
-* add Twig view to Controllers

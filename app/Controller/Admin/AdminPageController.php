@@ -2,35 +2,49 @@
 
 namespace PluginName\Controller\Admin;
 
+use PluginName\Adapter\WPPage;
+use PluginName\Controller\BaseController;
+use PluginName\Services\Loader;
+use Psr\Container\ContainerInterface;
+use const PLGUIN_AUTOLOADER_DIR;
+use const PLUGIN_FULL_NAME;
+use const PLUGIN_SLUG;
+
 require_once PLGUIN_AUTOLOADER_DIR;
 
-class AdminPageController {
+class AdminPageController extends BaseController {
 
     private $loader;
-    private $pageTitle = PLUGIN_FULL_NAME;
-    private $menuTitle = PLUGIN_FULL_NAME;
-    private $capability = 'manage_options';
-    private $menuSlug = PLUGIN_SLUG;
-    private $iconName = 'dashicons-tickets';
-    private $piority = 6;
+    private $wpPage;
+    private $pageOptions = [
+        'pageTitle' => PLUGIN_FULL_NAME,
+        'menuTitle' => PLUGIN_FULL_NAME,
+        'capability' => 'manage_options',
+        'menuSlug' => PLUGIN_SLUG,
+        'iconName' => 'dashicons-tickets',
+        'position' => 6
+    ];
 
-    public function __construct(\PluginName\Services\Loader $loader) {
+    public function __construct(Loader $loader, ContainerInterface $cointainer, WPPage $wpPage) {
+        parent::__construct($cointainer);
         $this->loader = $loader;
+        $this->wpPage = $wpPage;
     }
+
     public function addPage() {
-        add_menu_page(
-                $this->pageTitle,
-                $this->menuTitle,
-                $this->capability,
-                $this->menuSlug,
+        $this->wpPage->addMenuPage(
+                $this->pageOptions['pageTitle'],
+                $this->pageOptions['menuTitle'],
+                $this->pageOptions['capability'],
+                $this->pageOptions['menuSlug'],
                 [$this, 'viewPage'],
-                $this->iconName,
-                $this->piority
+                $this->pageOptions['iconName'],
+                $this->pageOptions['position'],
         );
     }
 
     public function viewPage() {
-        var_dump($GLOBALS);
+        echo $this->view()->render('admin/index.html.twig', ['pluginName' => PLUGIN_FULL_NAME]);
     }
 
     public function initPage() {

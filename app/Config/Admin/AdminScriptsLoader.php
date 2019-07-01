@@ -1,6 +1,6 @@
 <?php
 
-namespace PluginName\Services\ScriptsLoader\Admin;
+namespace PluginName\Config\Admin;
 
 require_once PLGUIN_AUTOLOADER_DIR;
 
