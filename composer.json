@@ -1,11 +1,14 @@
 {
     "name": "plugin/plugin-name",
     "require": {
-        "twig/twig": "^2.0"
+        "twig/twig": "^2.0",
+        "php-di/php-di": "^6.0"
     },
     "autoload": {
         "psr-4": {
             "PluginName\\": "app/"
         }
+    },
+    "require-dev": {
     }
 }

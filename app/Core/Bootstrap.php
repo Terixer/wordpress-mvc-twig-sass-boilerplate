@@ -2,64 +2,50 @@
 
 namespace PluginName\Core;
 
-class Core
-{
-    protected $loader;
+use PluginName\Services\Loader;
+use PluginName\Services\ScriptsLoader\Admin\AdminScriptsLoader;
+use const PLGUIN_AUTOLOADER_DIR;
 
-    // protected $pluginName;
-    protected $pluginSlug;
+require_once PLGUIN_AUTOLOADER_DIR;
 
+class Bootstrap {
 
-    protected $version;
+    private $adminScriptLoader;
+    private $translations;
+    private $loader;
+    private $adminPageController;
+    
+    public function __construct(AdminScriptsLoader $adminScriptLoader, Translations $translations, Loader $loader, \PluginName\Controller\Admin\AdminPageController $adminPageController) {
+        $this->adminScriptLoader = $adminScriptLoader;
+        $this->translations = $translations;
+        $this->loader = $loader;
+        $this->adminPageController = $adminPageController;
+    }
 
-    public function __construct()
-    {
-        $this->version = PLUGIN_NAME_VERSION;
-        $this->pluginName = 'Post Planner';
-        $this->pluginSlug = 'post-planner';
+    private function setLocale() {
+        $this->loader->addAction('plugins_loaded', $this->translations, 'loadPluginTextdomain');
+    }
 
-        $this->loadDependencies();
+    private function addAdminGlobalAssets() {
+
+        $this->loader->addAction('admin_enqueue_scripts', $this->adminScriptLoader, 'enqueueStyles');
+        $this->loader->addAction('admin_enqueue_scripts', $this->adminScriptLoader, 'enqueueScripts');
+    }
+    
+    private function addAdminPages(){
+        $this->adminPageController->initPage();
+    }
+    
+    private function defineAdminHooks() {
+
+        $this->addAdminGlobalAssets();
+        $this->addAdminPages();
+    }
+
+    public function run() {
         $this->setLocale();
         $this->defineAdminHooks();
-    }
-    
-    private function loadDependencies()
-    {
-        $this->loader = new Loader();
-    }
-    
-    private function setLocale()
-    {
-        $translations = new Translations();
-
-        $this->loader->addAction('plugins_loaded', $translations, 'loadPluginTextdomain');
-    }
-
-    private function defineAdminHooks()
-    {
-        $scriptsLoaderdmin = new ScriptsLoader($this->getPluginName(), $this->getVersion());
-
-        $this->loader->addAction('admin_enqueue_scripts', $scriptsLoaderdmin, 'enqueue_styles');
-        $this->loader->addAction('admin_enqueue_scripts', $scriptsLoaderdmin, 'enqueue_scripts');
-    }
-    
-    public function run()
-    {
         $this->loader->run();
     }
 
-    public function getPluginName()
-    {
-        return $this->pluginSlug;
-    }
-
-    public function getLoader()
-    {
-        return $this->loader;
-    }
-    
-    public function getVersion()
-    {
-        return $this->version;
-    }
 }

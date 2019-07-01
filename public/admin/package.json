@@ -1,5 +1,5 @@
 {
-  "name": "mpc_list",
+  "name": "plugin_name",
   "version": "1.0.0",
   "description": "",
   "main": "Gulpfile.js",
@@ -25,6 +25,5 @@
     "start": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Terixer",
   "license": "ISC"
 }

@@ -1,7 +1,7 @@
 # Caution: Work in progress! Boilerplate don't work yet.
 
 #rename
-1. `PLUGIN_NAME_VERSION` to `YOUR_PLUGIN_NAME_VERSION`
+1. `PLUGIN_VERSION` to `YOUR_PLUGIN_VERSION`
 2. `plugin-name` folder to `your-plugin-name` 
 3. `plugin-name.php` folder to `your-plugin-name.php`
 4. rename namespaces form `PluginName` to `YourPluginName`
@@ -11,3 +11,11 @@
 8. `composer dumpautoload -o`
 
 
+
+
+#toDo
+
+* change AdminScriptsLoader location
+* adding custom assets from controller
+* change files tree in App/Constroller
+* add Twig view to Controllers

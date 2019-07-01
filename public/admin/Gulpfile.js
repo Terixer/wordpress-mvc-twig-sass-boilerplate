@@ -7,14 +7,14 @@ const uglify = require('gulp-uglify');
 const rename = require("gulp-rename");
 
 const style = {
-  input: './scss/app.scss',
+  input: './scss/style.scss',
   output: './css',
   watch: './scss/**/*.scss'
 }
 
 
 const js = {
-  input: './js/app.js',
+  input: './js/scripts.js',
   output: './js',
   watch: './js/**/*.js'
 }

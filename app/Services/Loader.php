@@ -2,6 +2,8 @@
 
 namespace PluginName\Services;
 
+require_once PLGUIN_AUTOLOADER_DIR;
+
 /**
  * Register all actions and filters for the plugin.
  */
@@ -10,11 +12,14 @@ class Loader
     protected $actions;
 
     protected $filters;
+    
+    protected $wpLoad;
 
     public function __construct()
     {
         $this->actions = array();
         $this->filters = array();
+        $this->wpLoad = new \PluginName\Adapter\WpLoad();
     }
 
     /**
@@ -70,7 +75,6 @@ class Loader
             'priority'      => $priority,
             'accepted_args' => $acceptedArgs
         );
-
         return $hooks;
     }
 
@@ -82,11 +86,11 @@ class Loader
     public function run()
     {
         foreach ($this->filters as $hook) {
-            addFilter($hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args']);
+            $this->wpLoad->addFilter($hook['hook'], [$hook['component'], $hook['callback']], $hook['priority'], $hook['accepted_args']);
         }
 
         foreach ($this->actions as $hook) {
-            addAction($hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args']);
+            $this->wpLoad->addAction($hook['hook'], [$hook['component'], $hook['callback']], $hook['priority'], $hook['accepted_args']);
         }
     }
 }
